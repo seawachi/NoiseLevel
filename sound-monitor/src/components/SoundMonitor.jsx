@@ -109,7 +109,7 @@ export default function SoundMonitor() {
             classList.forEach(item => {
               const label = item.name.toLowerCase();
               if (speechKeywords.some(k => label.includes(k))) groupTotals.speech += item.score ;
-              if (crowdKeywords.some(k => label.includes(k))) groupTotals.crowd += item.score *10;
+              if (crowdKeywords.some(k => label.includes(k))) groupTotals.crowd += item.score *6;
               if (silentKeywords.some(k => label.includes(k))) groupTotals.silent += item.score*0.1;
             });
 
@@ -117,7 +117,7 @@ export default function SoundMonitor() {
             updateStatus(maxGroup);
 
             // Alert logic
-            if (maxGroup === 'crowd' && clampedDb > 40) {
+            if (maxGroup === 'crowd' && clampedDb > 35) {
               crowdHoldCount.current++;
               if (crowdHoldCount.current >= 3) setAlert(true); // 3 frames ~3 seconds
             } else {
