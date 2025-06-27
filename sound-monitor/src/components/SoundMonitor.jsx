@@ -117,7 +117,7 @@ export default function SoundMonitor() {
             updateStatus(maxGroup);
 
             // Alert logic
-            if (maxGroup === 'crowd' && clampedDb > 50) {
+            if (maxGroup === 'crowd' && clampedDb > 40) {
               crowdHoldCount.current++;
               if (crowdHoldCount.current >= 3) setAlert(true); // 3 frames ~3 seconds
             } else {
