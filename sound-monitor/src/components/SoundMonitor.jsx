@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 
 export default function SoundMonitor() {
   const [dbLevel, setDbLevel] = useState(0);
-  const [threshold, setThreshold] = useState(70); // Sensitivity control
+  const [threshold, setThreshold] = useState(90); // Sensitivity control
   const [status, setStatus] = useState('silent');
   const [topPredictions, setTopPredictions] = useState([]);
   const [log, setLog] = useState([]);
@@ -110,14 +110,14 @@ export default function SoundMonitor() {
               const label = item.name.toLowerCase();
               if (speechKeywords.some(k => label.includes(k))) groupTotals.speech += item.score ;
               if (crowdKeywords.some(k => label.includes(k))) groupTotals.crowd += item.score *10;
-              if (silentKeywords.some(k => label.includes(k))) groupTotals.silent += item.score*0.05;
+              if (silentKeywords.some(k => label.includes(k))) groupTotals.silent += item.score*0.1;
             });
 
             const maxGroup = Object.entries(groupTotals).sort((a, b) => b[1] - a[1])[0][0];
             updateStatus(maxGroup);
 
             // Alert logic
-            if (maxGroup === 'crowd' && clampedDb > 70) {
+            if (maxGroup === 'crowd' && clampedDb > 50) {
               crowdHoldCount.current++;
               if (crowdHoldCount.current >= 3) setAlert(true); // 3 frames ~3 seconds
             } else {
